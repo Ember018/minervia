@@ -51,7 +51,11 @@ class RegisterSerializer(serializers.Serializer):
         """
         validated_data.pop('password2')
 
-        user = User.objects.create(**validated_data)
+        user = User.objects.create_user(
+            username = validated_data['username'],
+            email = validated_data['email'],
+            password = validated_data['password'],
+        )
 
         Profile.objects.create(user=user, xp=0, coins=0, hp=100)
 
