@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError # Rename to avoid confict
 from .models import Profile
 
 class RegisterSerializer(serializers.Serializer):
-    username = serializers.CharField(requried=True)
+    username = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, write_only=True)
     password2 = serializers.CharField(required=True, write_only=True)
@@ -28,8 +30,18 @@ class RegisterSerializer(serializers.Serializer):
         """
         Check if password and password2 match
         """
-        if attrs['password'] != attrs['password2']:
+        password = attrs.get('password')
+        password2 = attrs.get('password2')
+
+        if password != password2:
             raise serializers.ValidationError("Password fields does not match!")
+
+        if password:
+            try:
+                validate_password(password)
+            except DjangoValidationError as e:
+                raise serializers.ValidationError(f"Password validaiton error: {e.messages}")
+
         return attrs
 
     def create(self, validated_data):
