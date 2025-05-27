@@ -1,0 +1,4 @@
+/home/nguyenhieu/my_home/projects/github/Ember018/minervia/minervia_frontend/.devenv.flake.nix
+/home/nguyenhieu/my_home/projects/github/Ember018/minervia/minervia_frontend/devenv.lock
+/home/nguyenhieu/my_home/projects/github/Ember018/minervia/minervia_frontend/devenv.nix
+/home/nguyenhieu/my_home/projects/github/Ember018/minervia/minervia_frontend/devenv.yaml
