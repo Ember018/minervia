@@ -61,7 +61,10 @@
             packages = with python.pkgs; [
               venvShellHook
               pip
-	      django
+              django
+              django-stubs
+              djangorestframework
+              djangorestframework-stubs
 
               /* Add whatever else you'd like here. */
               # pkgs.basedpyright
