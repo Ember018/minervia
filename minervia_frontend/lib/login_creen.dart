@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:minervia_frontend/home.dart';
 import 'package:minervia_frontend/register_screen.dart';
+import 'package:minervia_frontend/theme/app_theme.dart';
 
 final _storage = FlutterSecureStorage();
 
@@ -157,67 +158,79 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.all(18.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Please enter an username";
-                    }
-                    return null;
-                  },
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                      labelText: "Username",
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.person))),
-              const SizedBox(height: 16),
-              TextFormField(
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Please enter a password";
-                  }
-                  return null;
-                },
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: "Password",
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      }),
-                ),
-                obscureText: _obscurePassword,
+      child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints:
+                BoxConstraints(minHeight: viewportConstraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextFormField(
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Please enter an username";
+                            }
+                            return null;
+                          },
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                              labelText: "Username",
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.person))),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter a password";
+                          }
+                          return null;
+                        },
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                              icon: Icon(_obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              }),
+                        ),
+                        obscureText: _obscurePassword,
+                      ),
+                      const SizedBox(height: 32),
+                      ElevatedButton(
+                        child: _isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : const Text("Login"),
+                        onPressed: _isLoading ? null : _loginUser,
+                      ),
+                      const SizedBox(height: 32),
+                      InkWell(
+                          child: Text("Don't have an account? Register now!",
+                              style: TextStyle(color: AppTheme.primaryPink)),
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const RegisterScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          }),
+                    ]),
               ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                child: _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const Text("Login"),
-                onPressed: _isLoading ? null : _loginUser,
-              ),
-              const SizedBox(height: 32),
-              InkWell(
-                  child: Text("Don't have an account? Register now!"),
-                  onTap: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterScreen()),
-                      (Route<dynamic> route) => false,
-                    );
-                  }),
-            ]),
-      ),
+            ),
+          ),
+        );
+      }),
     ));
   }
 }

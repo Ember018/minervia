@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:minervia_frontend/login_creen.dart';
 import 'package:minervia_frontend/register_screen.dart';
 import 'package:minervia_frontend/home.dart';
+import 'package:minervia_frontend/theme/app_theme.dart';
 
 Future<String?> getInitialRoute() async {
   final storage = FlutterSecureStorage();
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Minervia",
+      theme: AppTheme.darkTheme,
       initialRoute: initialRoute, // Set initial route
       routes: {
         // Define your routes

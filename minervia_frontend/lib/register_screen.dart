@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:minervia_frontend/theme/app_theme.dart';
 
 import 'package:minervia_frontend/login_creen.dart';
 
@@ -141,120 +142,130 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(18.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "Please enter a username";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        labelText: "username",
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.person)),
-                    controller: _usernameController),
-                const SizedBox(height: 16),
-                TextFormField(
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter an email';
-                      }
-                      if (!RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "email",
-                      border: OutlineInputBorder(),
-                      prefix: Icon(Icons.email),
-                    ),
-                    controller: _emailController),
-                const SizedBox(height: 16),
-                TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: "password",
-                      border: const OutlineInputBorder(),
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
-                    ),
-                    obscureText: _obscurePassword,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      if (value.length < 8) {
-                        return "Password must have at least 8 character";
-                      }
-                      return null;
-                    }),
-                const SizedBox(height: 16),
-                TextFormField(
-                    controller: _passwordConfirmController,
-                    decoration: InputDecoration(
-                      labelText: "password confirmation",
-                      border: const OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(_obscurePasswordConfirm
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePasswordConfirm = !_obscurePasswordConfirm;
-                          });
-                        },
-                      ),
-                    ),
-                    obscureText: _obscurePasswordConfirm,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please confirm your password";
-                      }
-                      if (value != _passwordController.text) {
-                        return "Passwords do not match";
-                      }
-                      return null;
-                    }),
-                const SizedBox(height: 32),
-                _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
-                        child: const Text("Register"),
-                        onPressed: () {
-                          _registerUser();
-                        }),
-                const SizedBox(height: 32),
-                InkWell(
-                    child: Text("Already have an account? Log in!"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    }),
-              ]),
-        ),
+        child: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(minHeight: viewportConstraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TextFormField(
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Please enter a username";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                labelText: "username",
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.person)),
+                            controller: _usernameController),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Please enter an email';
+                              }
+                              if (!RegExp(
+                                      r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              labelText: "email",
+                              border: OutlineInputBorder(),
+                              prefix: Icon(Icons.email),
+                            ),
+                            controller: _emailController),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              labelText: "password",
+                              border: const OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(_obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: _obscurePassword,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a password';
+                              }
+                              if (value.length < 8) {
+                                return "Password must have at least 8 character";
+                              }
+                              return null;
+                            }),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                            controller: _passwordConfirmController,
+                            decoration: InputDecoration(
+                              labelText: "password confirmation",
+                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.lock_outline),
+                              suffixIcon: IconButton(
+                                icon: Icon(_obscurePasswordConfirm
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePasswordConfirm =
+                                        !_obscurePasswordConfirm;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: _obscurePasswordConfirm,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please confirm your password";
+                              }
+                              if (value != _passwordController.text) {
+                                return "Passwords do not match";
+                              }
+                              return null;
+                            }),
+                        const SizedBox(height: 32),
+                        _isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : ElevatedButton(
+                                child: const Text("Register"),
+                                onPressed: () {
+                                  _registerUser();
+                                }),
+                        const SizedBox(height: 32),
+                        InkWell(
+                            child: Text("Already have an account? Log in!",
+                                style: TextStyle(color: AppTheme.primaryPink)),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            }),
+                      ]),
+                ),
+              ),
+            ),
+          );
+        }),
       ),
     );
   }
