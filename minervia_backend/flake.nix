@@ -65,6 +65,7 @@
               django-stubs
               djangorestframework
               djangorestframework-stubs
+              djangorestframework-simplejwt
               mysqlclient
 
               /* Add whatever else you'd like here. */

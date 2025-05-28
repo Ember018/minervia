@@ -13,7 +13,7 @@
     cmdLineTools.version = "11.0";
     tools.version = "26.1.1";
     platformTools.version = "34.0.5";
-    buildTools.version = [ 
+    buildTools.version = [
       "30.0.3"
       "33.0.1"
     ];
@@ -50,9 +50,10 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ 
+  packages = [
     pkgs.git
     pkgs.vscodium
+    pkgs.libsecret
   ];
 
   # https://devenv.sh/languages/

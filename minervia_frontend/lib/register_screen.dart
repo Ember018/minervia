@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:minervia_frontend/login_creen.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -242,6 +244,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onPressed: () {
                           _registerUser();
                         }),
+                const SizedBox(height: 32),
+                InkWell(
+                    child: Text("Already have an account? Log in!"),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    }),
               ]),
         ),
       ),

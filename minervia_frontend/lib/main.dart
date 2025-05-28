@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:minervia_frontend/login_creen.dart';
 import 'package:minervia_frontend/register_screen.dart';
+import 'package:minervia_frontend/home.dart';
 
-void main() => runApp(const MyApp());
+Future<String?> getInitialRoute() async {
+  final storage = FlutterSecureStorage();
+  String? token = await storage.read(key: 'accessToken');
+  // You might add token validation logic here later
+  if (token != null) {
+    return '/home'; // Or whatever your home route is
+  }
+  return '/login'; // Or your login route
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Important if main is async
+  String initialRoute =
+      await getInitialRoute() == '/home' ? '/home' : '/login'; // Simplified
+  runApp(MyApp(initialRoute: initialRoute));
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Minervia",
-      home: Homepage(),
-    );
-  }
-}
-
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-            child: Text(
-                "Register, doesn't know how to structure the app, so just this for now"),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()));
-            }),
-      ),
+      initialRoute: initialRoute, // Set initial route
+      routes: {
+        // Define your routes
+        '/login': (context) => LoginScreen(),
+        '/home': (context) => Homepage(), // Your main app screen
+        '/register': (context) => RegisterScreen(),
+      },
+      // You might set `home` instead of `initialRoute` if logic is simpler
     );
   }
 }
