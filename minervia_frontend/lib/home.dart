@@ -50,13 +50,14 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-      leading: IconButton(
-        icon: Icon(Icons.logout),
-        onPressed: () {
-          _logOut();
-        },
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {
+            _logOut();
+          },
+        ),
       ),
-    ));
+    );
   }
 }
